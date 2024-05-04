@@ -1,57 +1,50 @@
-GraphicsWindow.title = "drag and drop"
+start:
+TextWindow.Clear()
+round2 = 10
+round = 0
+number2 = Math.GetRandomNumber(100)
+TextWindow.Title = "guess my numder"
+TextWindow.ForegroundColor = "red"
+TextWindow.WriteLine("guess my number")
+TextWindow.ForegroundColor = "gray"
+TextWindow.WriteLine("")
+TextWindow.Writeline("my number is less than 100")
+TextWindow.WriteLine(" you have "+ round2+ "rounds")
+begin:
+TextWindow.Write("what's my number?")
+number=TextWindow.ReadNumber()
+if number=number2 then
+    TextWindow.WriteLine("you won")
+    TextWindow.WriteLine("would you play again y/n")
+    playagain=TextWindow.Read()
+    if playagain="y" then
+        GoTo start
+    Else
+        Program.End()
+    EndIf
+Else
+    if number<number2 then
+        TextWindow.WriteLine("too small")
+    else
+        TextWindow.WriteLine("too large")
+    EndIf
+    if (round2-round)-1<1 then
+        round3="rounds"
+    else 
+        round3="round"
+    EndIf
+    TextWindow.WriteLine("you have"+((round2-round)-1)+" "+ round3+"left")
+EndIf
 
-init()
-mainloop()
-
-sub mainloop
-    while true
-        While not[mousedown]
-            Program.Delay(200)
-        EndWhile
-        x1 = Shapes.GetLeft(rect)
-        y1 = Shapes.GetTop(rect)
-        x2 = x1 + size
-        y2 = y1 + size
-        if (x1<=mx) and (mx < x2) and (y1 = my) and (my < y2) then
-            dx = mx - x1
-            dy = my - y1
-            while mousedown
-                if mousemove then
-                    Shapes.Move(rect ,mx - dx, my - dy)
-                    mousemove="false"
-                EndIf
-            EndWhile
+if round < round2 then
+    GoTo begin
+Else
+    TextWindow.WriteLine("you have run out of rounds")
+    TextWindow.WriteLine("would you like to play again y/n")
+    if playagain ="y" then
+    GoTo start
+    else
+        Program.End()
         EndIf
-        EndWhile
-EndSub 
+EndIf
 
-sub init
-    not = "true false; false=true"
-    GraphicsWindow.BackgroundColor="#333333"
-    GraphicsWindow.PenWidth=0
-    GraphicsWindow.BrushColor="gold"
-    size = 40
-    rect = Shapes.AddEllipse(size, size)
-    mousedown = "false"
-    mousemove = "false"
-    GraphicsWindow.MouseDown = onmousedown
-    GraphicsWindow.MouseUp = onmouseup
-    GraphicsWindow.MouseMove = onmousemove
-EndSub
-
-sub onmousedown
-    mx = GraphicsWindow.MouseX
-    my = GraphicsWindow.MouseY
-    mousedown = "true"
-EndSub
- 
-sub onmouseup
-    mousedown = "false"
-
-EndSub
- 
-sub onmousemove
-    mx = GraphicsWindow.MouseX
-    my = GraphicsWindow.MouseY
-    mousemove = "true"
-EndSub
